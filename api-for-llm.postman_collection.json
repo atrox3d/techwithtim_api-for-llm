@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "5e7c1205-bfd5-4c4a-ac87-8214743815ef",
+		"name": "api-for-llm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37449767"
+	},
+	"item": [
+		{
+			"name": "generate-specufy-model",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"prompt\": \"hello\",\n    \"model\": \"llama3.2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generate-default-model",
+			"request": {
+				"auth": {
+					"type": "inherit"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"prompt\": \"hello\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"generate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
