@@ -5,12 +5,20 @@ app = FastAPI()
 
 @app.post('/generate')
 def generate(
-    prompt:str = Body(embed=True)   # {"prompt": "actual prompt"}
-                                    # without using pydantic model
+    prompt:str = Body(embed=True)   
+    ,model:str = Body(default='mistral', embed=True)
 ):
+    '''
+    json structure:
+    {
+        "prompt": "actual prompt",
+        "model" : "llama3.2"        # OPTIONAL
+    }
+    '''
     print(f'{prompt = }')
+    print(f'{model = }')
     response = ollama.chat(
-            model='mistral',
+            model=model,
             messages=[
                 {
                     'role': 'user',
