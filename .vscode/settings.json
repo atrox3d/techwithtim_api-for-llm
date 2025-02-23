@@ -1,4 +1,9 @@
 {
-    "search.useIgnoreFiles": true,
-    "search.useGlobalIgnoreFiles": false
+    // "search.useIgnoreFiles": true,
+    // "search.useGlobalIgnoreFiles": false,
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
