@@ -1,19 +1,56 @@
 from fastapi import testclient
-from server import app
+import os
+import pytest
+
+from server import app, FAKE_APIKEY_STATUS, FAKE_CREDITS
 
 
-def test_simple_generate():
+@pytest.fixture
+def apikey_status() -> dict:
+    return FAKE_APIKEY_STATUS
+
+
+@pytest.fixture
+def apikey(apikey_status) -> str:
+    key, = apikey_status.keys()
+    return key
+
+
+@pytest.fixture
+def apikey_credits(apikey_status) -> int:
+    return apikey_status['credits']
+
+
+def test_simple_generate_with_model(apikey):
     client = testclient.TestClient(app)
+    
     response = client.post(
-        '/generate', 
-        json={
-        "prompt": "hello",
-        "model": "llama3.2"
-        },
-        headers={
-            'x-api-key': 'secret'
-        }
+            '/generate', 
+            json={
+                "prompt": "hello",
+                "model": "llama3.2"
+            },
+            headers={
+                'x-api-key': apikey
+            }
     )
     assert response.status_code == 200
+    assert 'hello' in response.text.lower()
     print(response.json())
+
+
+def test_simple_generate_default_model(apikey):
+    client = testclient.TestClient(app)
     
+    response = client.post(
+            '/generate', 
+            json={
+                "prompt": "hello",
+            },
+            headers={
+                'x-api-key': apikey
+            }
+    )
+    assert response.status_code == 200
+    assert 'hello' in response.text.lower()
+    print(response.json())

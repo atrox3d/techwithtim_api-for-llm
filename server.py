@@ -42,6 +42,6 @@ def generate(
     )
     return {
         'response': response.message.content,
-        'credtis': FAKE_APIKEY_STATUS[x_api_key]
+        'credits': FAKE_APIKEY_STATUS[x_api_key]
         }
 
