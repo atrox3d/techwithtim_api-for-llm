@@ -22,10 +22,10 @@ def get_apikey_credits(apikey:str, credits:int=10) -> dict:
     }
 
 
-def get_apikey_credits_from_env() -> dict:
+def get_apikey_status_from_env(credits:int=0) -> dict:
     '''
     good for the exampl
     '''
     apikey = get_apikey()
-    return get_apikey_credits(apikey)
+    return get_apikey_credits(apikey, credits)
 

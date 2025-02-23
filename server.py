@@ -5,10 +5,22 @@ import apikey
 
 app = FastAPI()
 
+FAKE_CREDITS = 5
+FAKE_APIKEY_STATUS = apikey.get_apikey_status_from_env(FAKE_CREDITS)
+
+
+def verify_apykey(x_api_key:str=Header(None)) -> dict:
+    credits = FAKE_APIKEY_STATUS.get(x_api_key, 0)
+    if credits <= 0:
+        raise HTTPException(status_code=401, detail='Invalid API key or no credits')
+    return x_api_key
+
+
 @app.post('/generate')
 def generate(
-    prompt:str = Body(embed=True)   
-    ,model:str = Body(default='mistral', embed=True)
+    prompt      :str = Body(embed=True),
+    model       :str = Body(default='mistral', embed=True),
+    x_api_key   :str = Depends(verify_apykey)
 ):
     '''
     json structure:
@@ -17,8 +29,8 @@ def generate(
         "model" : "llama3.2"        # OPTIONAL
     }
     '''
-    print(f'{prompt = }')
-    print(f'{model = }')
+    FAKE_APIKEY_STATUS[x_api_key] -= 1
+    
     response = ollama.chat(
             model=model,
             messages=[
@@ -28,5 +40,8 @@ def generate(
                 },
             ]
     )
-    return {'response': response.message.content}
+    return {
+        'response': response.message.content,
+        'credtis': FAKE_APIKEY_STATUS[x_api_key]
+        }
 
