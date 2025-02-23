@@ -1,5 +1,7 @@
-from fastapi import Body, FastAPI
+from fastapi import Body, FastAPI, Depends, HTTPException, Header
 import ollama
+
+import apikey
 
 app = FastAPI()
 
